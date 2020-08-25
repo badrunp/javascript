@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+    <title>AddTodo</title>
+    <style type="text/css">
+    body{
+    	height: 1000px;
+   } 
+   .container {
+   	width:100%;
+   	overflow: hidden;
+  	} 
+    </style>
+  </head>
+  <body>
+    <div class="container">
+    	<h1 class="mt-2" style="text-align:center;">AddTodoList</h1>
+    	<div class="mt-3" id="validasi" style="position: relative; height: 50px;">
+    	
+    	</div>
+    	<form class="mt-2" id="form">
+    		<div class="form-group">
+   			 	<label for="nama">Nama</label>
+  			  	<input type="text" class="form-control" id="nama" >
+	    	</div>
+	    	<div class="form-group">
+	    		<label for="email">Email</label>
+	    		<input type="email" class="form-control" id="email">
+	    	</div>
+ 		   	<div class="form-group">
+ 			   	<label for="jurusan">Jurusan</label>
+ 			   	<input type="text" class="form-control" id="jurusan">
+  		  	</div>
+  
+    		<button class="btn btn-primary" id="tombol">Submit</button>
+    	</form>
+    	
+    	<form class="mt-3">
+    		<div class="form-group">
+    			<input type="text" id="cari" class="form-control" placeholder="Cari... " autofocus>
+    		</div>
+    	</form>
+    	
+    	<table class="table mt-4">
+    		<thead class="thead-dark" style="font-size: 14px;">
+  			  	<tr>
+    				<th scope="col">Nama</th>
+    				<th scope="col">Email</th>
+    				<th scope="col">Jurusan</th>
+    				<th scope="col"></th>
+    			</tr>
+    		</thead>
+    		<tbody id="list" style="font-size: 11px;">
+    
+   	 	
+  		  	</tbody>
+    	</table>
+    
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    
+    
+    <script type="text/javascript">
+    	
+    	
+    	const valii = document.querySelector("#validasi");
+    	valii.style.display = "none";
+    	class Mahasiswa {
+    		constructor(nama, email, jurusan) {
+    			this.nama = nama;
+    			this.email = email;
+    			this.jurusan = jurusan;
+    		} 
+    	} 
+    
+    	class Store {
+    		static getputri() {
+    			let putri;
+    			if( localStorage.getItem("mahasiswa") == null) {
+    				putri = [];
+    			} else{
+    				putri = JSON.parse(localStorage.getItem("mahasiswa"));
+    			} 
+    			return putri;
+    		} 
+    		
+    		static addputri(data) {
+    			const datas = Store.getputri();
+    			datas.push(data);
+    			localStorage.setItem("mahasiswa", JSON.stringify(datas) );
+    		} 
+    		
+    		static hapusputri(email) {
+    			const datas = Store.getputri();
+    			datas.forEach((data, index) => {
+    				if(data.email == email) {
+    					datas.splice(index, 1);
+    				} 
+    			});
+    			localStorage.setItem("mahasiswa", JSON.stringify(datas) );
+    		} 
+    	} 
+    
+    
+    	class Ui {
+    		static getmhs() {
+    			/*var mhs = [
+    				{nama: "Badrun", email: "bbadrunn@gmail.com", jurusan: "Teknik Jaringan Komputer"},
+   		 			{nama: "Putri Nadia", email: "putri@gmail.com", jurusan: "Multimedia"}
+    			];*/
+    		
+    			var datas = Store.getputri();
+    		
+    			datas.forEach((data) => Ui.addui(data));
+    		} 
+    		
+    		static addui(data) {
+    			const list = document.querySelector("#list");
+    			const tr = document.createElement("tr");
+    			tr.className = "box";
+    			tr.innerHTML = '<td>'+ data.nama +'</td><td>' + data.email +'</td><td>'+ data.jurusan +'<td><button class="btn btn-danger">X</button>';
+    			list.appendChild(tr);
+    			
+    		} 
+    		
+    		static clear() {
+    			document.querySelector("#nama").value = "";
+    			document.querySelector("#email").value = "";
+    			document.querySelector("#jurusan").value = "";
+    		} 
+    		
+    		static validasi(isi, warna) {
+    			valii.style.display = "block";
+    			const val = document.querySelector("#validasi");
+    			const el = document.createElement("div");
+    			const text = document.createTextNode(isi);
+    			el.className = "alert";
+    			el.classList.add(warna);
+    			el.style.position = "absolute";
+    			el.style.top = "0";
+    			el.style.left = "0";
+    			el.style.width = "100%";
+    			el.appendChild(text);
+    			val.appendChild(el);
+    			
+    			setTimeout(() => el.remove(),3000);
+    			setTimeout(() => valii.style.display = "none", 3000);
+    		} 
+    		
+    		static hapus(et) {
+    			if( et.classList.contains("btn")) {
+    				et.parentElement.parentElement.remove();
+    			} 
+    		} 
+    		
+    		static cari(value) {
+    			const list = document.querySelector("#list");
+    			const tr = list.querySelectorAll("tr");
+    			const val = value.toLowerCase();
+    			
+    			for( var j = 0; j < tr.length; j++) {
+    				const td = tr[j].querySelector("td");
+    				if( td.textContent.toLowerCase().indexOf(val) != -1) {
+    					td.parentElement.style.display = "";
+    				}else {
+    					td.parentElement.style.display = "none";
+    				} 
+    			} 
+    			
+    		} 
+    		
+    	} 
+    	
+    	document.addEventListener("DOMContentLoaded", Ui.getmhs);
+    	document.querySelector("#tombol").addEventListener("click", function(e) {
+    		e.preventDefault();
+    		
+    		const nama = document.getElementById("nama").value;
+    		const email = document.getElementById("email").value;
+    		const jurusan = document.getElementById("jurusan").value;
+    		
+    		
+    		var mhs = new Mahasiswa(nama, email, jurusan);
+    		
+    		if( nama == "" || email == "" || jurusan == "") {
+    			Ui.validasi("Isi Terlebih Dahulu", "alert-danger");
+    		}else{
+    			Ui.addui(mhs);
+    			Store.addputri(mhs);
+    			Ui.clear();
+    			Ui.validasi("Data Berhasil Ditambahkan", "alert-success");
+    		} 
+    	});
+    	
+    	
+    	document.querySelector("#list").addEventListener("click", (e) => {
+    		e.preventDefault();
+    		if( confirm("Apakah Mau Dihapus?") ) {
+    		Ui.hapus(e.target);
+    		Ui.validasi("Data Berhasil Dihapus", "alert-danger");
+    		Store.hapusputri(e.target.parentElement.previousElementSibling.previousElementSibling.textContent);
+    		} 
+    	});
+    	
+    	document.querySelector("#cari").addEventListener("keyup", (e) => {
+    		Ui.cari(e.target.value);
+    	});
+    </script>
+  </body>
+</html>
