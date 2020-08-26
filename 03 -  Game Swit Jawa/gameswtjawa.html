@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<style type="text/css">
+body{
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	background-color: silver;
+	height: 100vh;
+} 
+.container {
+	width: 70%;
+	position: relative;
+	background-color: white;
+	box-shadow: 0 0 5px rgba(0,0,0,.5);
+	
+} 
+
+.kotakmusuh{
+	width: 100%;
+	height: 120px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-bottom: 1px solid;
+} 
+.kotakplayer{
+	width: 100%;
+	height: 150px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+} 
+
+.kotak{
+	width:70px;
+	height: 70px;
+	border: 1px solid;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-transform: uppercase;
+} 
+.kota{
+	width:70px;
+	height: 70px;
+	border: 1px solid;
+	border-radius: 50%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-transform: uppercase;
+} 
+.hasil{
+	position: absolute;
+	top:45%;
+	left:50%;
+	width: 70px;
+	height: 30px;
+	border: 1px solid;
+	transform: translate(-50%,-50%);
+	background-color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-transform: uppercase;
+} 
+
+.gajah{
+	background-color: red;
+	color: white;
+} 
+.semut{
+	background-color: green;
+	color:white;
+} 
+
+.orang{
+	background-color: blue;
+	color: white;
+} 
+
+.hasil{
+	background-color: #333;
+	color: white;
+} 
+.musuh{
+	color: white;
+} 
+</style>
+</head>
+<body>
+
+<div class="container">
+	<div class="kotakmusuh">
+		<div class="kota musuh"></div>
+	</div>
+	<div class="hasil"></div>
+	<div class="kotakplayer">
+		<div id="gajah" class="kotak gajah">gajah</div>
+		<div id="semut" class="kotak semut">semut</div>
+		<div id="orang" class="kotak orang">orang</div>
+	</div>
+</div>
+
+
+
+<script type="text/javascript">
+	
+	function pilihancom() {
+		const random = Math.random();
+		if( random < 0.34 ) return "gajah";
+		if( random > 0.34 && random <= 0.67 ) return "orang";
+		return "semut";
+	} 
+	
+	function hasila(comp, player) {
+		if( player == comp) return "SERI";
+		if( player == "gajah" ) return ( comp == "semut" ) ? "KALAH" : "MENANG";
+		if( player == "semut") return (comp == "orang") ? "KALAH": "MENANG";
+		if( player == "orang") return (comp == "gajah") ? "KALAH":"MENANG";
+	} 
+	
+	function acak() {
+		var isi = ["gajah", "semut", "orang"];
+		let i = 0;
+		
+		const date = new Date().getTime();
+		var set = setInterval(function() {
+		
+			if( new Date().getTime() - date > 3000) {
+				clearInterval(set);
+			} 
+			document.querySelector(".musuh").innerHTML = isi[i++];
+			if(i === 2) {
+				i = 0;
+			} 
+		}, 200);
+		
+		
+	} 
+	function acak2() {
+	var warna = ["red", "blue", "green"];
+	let i = 0;
+	
+	const date = new Date().getTime();
+	var set = setInterval(function() {
+	
+	if( new Date().getTime() - date > 3000) {
+	clearInterval(set);
+	} 
+	
+	document.querySelector(".musuh").style.backgroundColor = warna[i++];
+	
+	if(i === warna.length) {
+	i = 0;
+	} 
+	}, 200);
+	
+	
+	} 
+	
+	
+	const kotak = document.querySelectorAll(".kotak");
+	
+	kotak.forEach(function(data) {
+		data.addEventListener("click", function(e) {
+			const computer = pilihancom();
+			const player = e.target.id;
+			const hasil = hasila(computer, player);
+			console.log("comp: " + computer);
+			console.log("player: " + player);
+			console.log("hasil: " + hasil);
+			acak();
+			acak2();
+			
+			var has = "";
+			if( computer == "gajah") {
+				has = "red"
+			}else if( computer == "semut") {
+				has = "green"
+			}else{
+				has = "blue"
+			} 
+			console.log(has);
+			
+			setTimeout(function() {
+				document.querySelector(".musuh").innerHTML = computer;
+				document.querySelector(".hasil").innerHTML = hasil;
+				document.querySelector(".musuh").style.backgroundColor = has;
+			}, 3200);
+			
+			
+		});
+	});
+	
+	
+	
+	
+</script>
+</body>
+</html>
