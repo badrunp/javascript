@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<style type="text/css">
+
+body{
+	background-color: #333;
+} 
+i{
+	position: absolute;
+	top: -250px;
+	background: rgba(255,255,255,.5);
+	animation: animate linear infinite;
+} 
+
+@keyframes animate{
+	0%{ transform: translatey(0)}
+	100%{ transform: translatey(100vh)}
+} 
+
+
+div{
+	width: 100%;
+	height: 100vh;
+	background-color: #333;
+	position: relative;
+} 
+
+</style>
+</head>
+<body>
+
+<div>cx
+</div>
+
+
+<script type="text/javascript">
+
+const div = document.querySelector("div");
+let count = 30;
+let o = 0;
+while( o < count) {
+	const i = document.createElement("i");
+	let left = Math.floor(Math.random() * window.innerWidth );
+	let duration = Math.random() + 0.15;
+	let h = Math.random() * 100;
+	
+	i.style.left = left + "px";
+	i.style.width = "1px";
+	i.style.height = h + "px";
+	i.style.animationDuration = duration + "s";
+	
+	
+	div.appendChild(i);
+	o++;
+	
+} 
+</script>
+</body>
+</html>
